@@ -1,6 +1,7 @@
 {
     "name": "issues-demo",
     "description": "",
+    "type" : "module",
     "version": "0.1.0",
     "dependencies": {},
     "devDependencies": {}
