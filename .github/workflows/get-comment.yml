@@ -61,7 +61,7 @@ jobs:
       with:
         github-token: ${{ secrets.TOKEN }}
         script: |
-          const execa = import('execa')
+          const execa = require('execa')
 
           const issueBody = `${{ github.event.issue.body }}`;
           const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
