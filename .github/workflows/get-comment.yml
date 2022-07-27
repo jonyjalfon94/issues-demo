@@ -52,6 +52,7 @@ jobs:
       with:
         script: |
           const issue_body = `${{ github.event.issue.body }}`;
-          console.log(issue_body);
           const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort().filter((v, i, a) => a.indexOf(v) === i);
           console.log(pr_urls);
+
+          
