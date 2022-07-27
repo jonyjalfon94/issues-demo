@@ -23,7 +23,6 @@ jobs:
       id: fc
       with:
         issue-number: ${{ github.event.issue.number }}
-        body-includes: Environment
         direction: last
 
     - name: Output comment
