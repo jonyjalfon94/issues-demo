@@ -53,11 +53,6 @@ jobs:
         github-token: ${{ secrets.TOKEN }}
         script: |
           const issue_body = `${{ github.event.issue.body }}`;
-          const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g);
+          const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
           console.log(pr_urls);
-          # github.rest.pulls.get({
-          #   owner,
-          #   repo,
-          #   pull_number,
-          # });
 
