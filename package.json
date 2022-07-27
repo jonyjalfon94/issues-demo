@@ -1,8 +1,7 @@
 {
     "name": "issues-demo",
     "description": "",
-    "type" : "module",
+    "type": "module",
     "version": "0.1.0",
-    "dependencies": {},
-    "devDependencies": {}
+    "dependencies": {}
 }
