@@ -65,13 +65,13 @@ jobs:
       with:
         github-token: ${{ secrets.TOKEN }}
         script: |
-        
+
           import {execa} from '/home/runner/work/issues-demo/issues-demo/node_modules/execa/index.js';
 
           const issueBody = `${{ github.event.issue.body }}`;
           const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
           console.log(prUrls);
           for (const url of prUrls) {
-            const prData = await JSON.parse(execa('gh pr view ' + url + ' --json headRefName,headRepository'));
+            const prData = await JSON.parse(execa.command('gh pr view ' + url + ' --json headRefName,headRepository'));
             console.log(prData)
           }
