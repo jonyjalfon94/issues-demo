@@ -18,19 +18,19 @@ jobs:
       issues: write
     steps:
 
-    - name: Find Comment
-      uses: peter-evans/find-comment@v2
-      id: fc
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        direction: last
+    # - name: Find Comment
+    #   uses: peter-evans/find-comment@v2
+    #   id: fc
+    #   with:
+    #     issue-number: ${{ github.event.issue.number }}
+    #     direction: last
 
-    - name: Output comment
-      run: |
-        echo ${{ steps.fc.outputs.comment-id }}
-        echo ${{ steps.fc.outputs.comment-body }}
-        echo ${{ steps.fc.outputs.comment-author }}
+    # - name: Output comment
+    #   run: |
+    #     echo ${{ steps.fc.outputs.comment-id }}
+    #     echo ${{ steps.fc.outputs.comment-body }}
+    #     echo ${{ steps.fc.outputs.comment-author }}
 
     - name: Output issue body
       run: |
-        echo ${{ github.event.issue.body }}
+        echo ${{ github.event.issue.body }} | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u
