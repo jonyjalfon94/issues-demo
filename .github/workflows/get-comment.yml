@@ -1,0 +1,29 @@
+name: Get Issue comment
+on:
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+
+jobs:
+  issue-commented:
+    name: comment
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+
+    - name: Find Comment
+      uses: peter-evans/find-comment@v2
+      id: fc
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body-includes: Environment
+        direction: last
+
+    - name: Output comment
+      run: |
+        echo ${{ steps.fc.outputs.comment-id }}
+        echo ${{ steps.fc.outputs.comment-body }}
+        echo ${{ steps.fc.outputs.comment-author }}
