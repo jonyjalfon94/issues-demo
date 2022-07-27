@@ -32,5 +32,14 @@ jobs:
     #     echo ${{ steps.fc.outputs.comment-author }}
 
     - name: Output issue body
+      id: get-issue-data
       run: |
-        echo "${{ github.event.issue.body }}" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u
+        PR_URLS=$(echo "${{ github.event.issue.body }}" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u)
+        echo "::set-output name=pr-urls::$PR_URLS"
+    
+    - name: Echo Urls
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        echo ${{ steps.get-issue-data.outputs.pr-urls }}
+        gh pr view ${{ steps.get-issue-data.outputs.pr-urls }} --json headRefName,headRepository
