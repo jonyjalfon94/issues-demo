@@ -60,6 +60,6 @@ jobs:
 
           prUrls.forEach(url => {
             console.log("PR URL: " + url);
-            const prData = JSON.parse(exec.exec('gh pr view ' + url + ' --json headRefName,headRepository'));
+            const prData = exec.exec('gh pr view ' + url + ' --json headRefName,headRepository'));
             console.log(prData)
           })
