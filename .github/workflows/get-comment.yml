@@ -31,16 +31,27 @@ jobs:
     #     echo ${{ steps.fc.outputs.comment-body }}
     #     echo ${{ steps.fc.outputs.comment-author }}
 
-    - name: Output issue body
-      id: get-issue-data
-      run: |
-        PR_URLS=$(echo "${{ github.event.issue.body }}" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u)
-        echo "::set-output name=pr-urls::$PR_URLS"
+    # - name: Output issue body
+    #   id: get-issue-data
+    #   env:
+    #     ISSUE_BODY: ${{ github.event.issue.body }}
+    #   run: |
+    #     echo ${{ env.ISSUE_BODY }}
+    #     PR_URLS=$(echo $ISSUE_BODY | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u)
+    #     echo "::set-output name=pr-urls::$PR_URLS"
     
-    - name: Echo Urls
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        PR_URLS: ${{ steps.get-issue-data.outputs.pr-urls }}
-      run: |
-        echo "$PR_URLS"
-        gh pr view "$PR_URLS" --json headRefName,headRepository
+    # - name: Echo Urls
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
+    #     PR_URLS: ${{ steps.get-issue-data.outputs.pr-urls }}
+    #   run: |
+    #     echo "$PR_URLS"
+    #     gh pr view "$PR_URLS" --json headRefName,headRepository
+
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          const issue_body = "${{ github.event.issue.body }}"
+          console.log(issue_body)
+          const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort().filter((v, i, a) => a.indexOf(v) === i)
+          console.log(pr_urls)
