@@ -52,8 +52,6 @@ jobs:
       with:
         github-token: ${{ secrets.TOKEN }}
         script: |
-          const exec = require('@actions/exec');
-
           const issueBody = `${{ github.event.issue.body }}`;
           const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
           console.log(prUrls);
