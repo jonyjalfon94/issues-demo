@@ -50,28 +50,14 @@ jobs:
 
     - uses: actions/github-script@v6
       with:
+        github-token: ${{ secrets.TOKEN }}
         script: |
           const issue_body = `${{ github.event.issue.body }}`;
-          const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort().filter((v, i, a) => a.indexOf(v) === i);
+          const pr_urls = issue_body.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g);
           console.log(pr_urls);
-
-          const pr_data = pr_urls.map(url => {
-            const pr = fetch(url, {
-              headers: {
-                Authorization: `token ${${{ secrets.TOKEN }}`
-              }
-            }).then(res => res.json());
-            return pr;
-          });
-
-          Promise.all(pr_data).then(prs => {
-            const pr_data = prs.map(pr => {
-              return {
-                url: pr.html_url,
-                repo: pr.head.repo.full_name,
-                branch: pr.head.ref
-              };
-            });
-            console.log(pr_data);
-
+          # github.rest.pulls.get({
+          #   owner,
+          #   repo,
+          #   pull_number,
+          # });
 
