@@ -48,16 +48,16 @@ jobs:
     #     echo "$PR_URLS"
     #     gh pr view "$PR_URLS" --json headRefName,headRepository
 
-    # Checkout code
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 16
-    # or one-off:
-    - run: npm install execa
+    # # Checkout code
+    # - uses: actions/checkout@v2
+    # - uses: actions/setup-node@v2
+    #   with:
+    #     node-version: 16
+    # # or one-off:
+    # - run: npm install execa
 
-    - run: ls -la
-    - run: ls node_modules
+    # - run: ls -la
+    # - run: ls node_modules
 
     - uses: actions/github-script@v6
       env:
