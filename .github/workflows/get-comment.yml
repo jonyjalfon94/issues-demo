@@ -48,6 +48,9 @@ jobs:
     #     echo "$PR_URLS"
     #     gh pr view "$PR_URLS" --json headRefName,headRepository
 
+    # Checkout code
+    - uses: actions/checkout@v2
+
     - uses: actions/github-script@v6
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
