@@ -20,11 +20,8 @@ body:
     attributes:
       label: PR Links
       description: "Add the PR links here:"
-#       placeholder: ex. https://github.com/jonyjalfon94/terraform-training/pull/3
-      value: |
-        ```yaml
-         
-        ```
+      placeholder: ex. https://github.com/jonyjalfon94/terraform-training/pull/3
+      value:
     validations:
       required: true
   - type: dropdown
