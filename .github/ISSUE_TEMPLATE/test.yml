@@ -1,62 +1,35 @@
 name: Bug Report
 description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-assignees:
-  - octocat
+title: "[Feature]: "
+labels: ["deploy"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Please add a link for each of the PRs that should be tracked in the new environment
   - type: input
-    id: contact
+    id: env-name
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      label: Environment Name
+      description: Please enter the name of the environment
+      placeholder: ex. feature-xyz
     validations:
-      required: false
+      required: true
   - type: textarea
-    id: what-happened
+    id: links
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Links
+      description: Add the PR links here:
+      placeholder: ex. https://github.com/jonyjalfon94/terraform-training/pull/3
     validations:
       required: true
   - type: dropdown
     id: version
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: Argus Version
+      description: What version of argus would you like to deploy
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+        - 1.0.2
+        - 1.0.3
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
