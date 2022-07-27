@@ -1,6 +1,6 @@
-name: Bug Report
-description: File a bug report
-title: "[Feature]: "
+name: Environment Request
+description: Create an environment on-demand
+title: "[Environment]: "
 labels: ["deploy"]
 body:
   - type: markdown
@@ -18,7 +18,7 @@ body:
   - type: textarea
     id: links
     attributes:
-      label: Links
+      label: PR Links
       description: "Add the PR links here:"
       placeholder: ex. https://github.com/jonyjalfon94/terraform-training/pull/3
     validations:
