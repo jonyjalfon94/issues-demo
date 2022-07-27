@@ -1,0 +1,36 @@
+name: Environment Request
+description: Create an environment on-demand
+title: "[Environment]: "
+labels: ["deploy"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please add a link for each of the PRs that should be tracked in the new environment
+  - type: input
+    id: env-name
+    attributes:
+      label: Environment Name
+      description: Please enter the name of the environment
+      placeholder: ex. feature-xyz
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: PR Links
+      description: "Add the PR links here:"
+      placeholder: ex. https://github.com/jonyjalfon94/terraform-training/pull/3
+      value:
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Argus Version
+      description: What version of argus would you like to deploy
+      options:
+        - 1.0.2
+        - 1.0.3
+    validations:
+      required: true
