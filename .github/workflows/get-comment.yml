@@ -40,6 +40,7 @@ jobs:
     - name: Echo Urls
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        PR_URLS: ${{ steps.get-issue-data.outputs.pr-urls }}
       run: |
-        echo ${{ steps.get-issue-data.outputs.pr-urls }}
-        gh pr view ${{ steps.get-issue-data.outputs.pr-urls }} --json headRefName,headRepository
+        echo "$PR_URLS"
+        gh pr view "$PR_URLS" --json headRefName,headRepository
