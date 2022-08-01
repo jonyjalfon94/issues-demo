@@ -70,13 +70,8 @@ jobs:
           console.log(prUrls);
 
           cleanPrUrls = prUrls.map( url => {
-            url.replace(/^https?:\/\//, '')
+            url.replace("https://github.com/", '')
           })
           
           console.log(cleanPrUrls);
-
-          # for (const url of cleanPrUrls) {
-          #   const prData = github.res
-          #   console.log(prData)
-          # }
 
