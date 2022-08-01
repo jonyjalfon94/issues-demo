@@ -19,6 +19,8 @@ jobs:
     name: comment
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
+      contents: read
       issues: write
     steps:
 
