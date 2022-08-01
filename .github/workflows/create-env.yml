@@ -73,7 +73,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::434834777527:role/github-role-Role-10TMVRLENRLC1
-          aws-region: eu-west-1
+          aws-region: eu-central-1
           role-skip-session-tagging: true
 
       # Install Node.js
