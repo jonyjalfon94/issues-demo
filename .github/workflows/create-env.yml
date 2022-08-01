@@ -48,7 +48,6 @@ jobs:
             Once the environment is ready a new comment will be added to this PR with the details of the environment.
             
             In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks)`;
-            `;
 
             repoData.map( (repo) => {
                 // Add deploying label to PR
