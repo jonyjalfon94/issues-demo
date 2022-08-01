@@ -5,11 +5,11 @@ on:
       - opened
       - edited
     
-  issue_comment:
-    types:
-      - created
-      - edited
-      - deleted
+  # issue_comment:
+  #   types:
+  #     - created
+  #     - edited
+  #     - deleted
 
 env: 
   CDK_APP_PATH: ./on-demand-env
@@ -49,7 +49,8 @@ jobs:
             The environment is now being created.
             Once the environment is ready a new comment will be added to this PR with the details of the environment.
             
-            In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks)`;
+            In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/runs/${{ github.run_id }})`;
+                                                                                                       https://github.com/jonyjalfon94/issues-demo/runs/7620902165?check_suite_focus=true
 
             repoData.map( (repo) => {
                 // Add deploying label to PR
