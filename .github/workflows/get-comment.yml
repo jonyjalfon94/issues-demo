@@ -69,7 +69,7 @@ jobs:
           const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
           console.log(prUrls);
 
-          cleanPrUrls = prUrls.map( url -> {
+          cleanPrUrls = prUrls.map( url => {
             url.replace(/^https?:\/\//github.com\/, '')
           })
           
