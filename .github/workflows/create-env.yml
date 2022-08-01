@@ -61,7 +61,7 @@ jobs:
 
       - name: Provision Environment
         run: |
-          echo"----------------- Provisioning Environment -----------------"
+          echo "----------------- Provisioning Environment -----------------"
           sleep 5
 
       - uses: actions/github-script@v6
