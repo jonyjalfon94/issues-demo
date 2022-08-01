@@ -1,0 +1,127 @@
+name: Create environment
+on:
+  issues:
+    types:
+      - opened
+      - edited
+    
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+
+jobs:
+  issue-commented:
+    name: comment
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          script: |
+            const issueBody = `${{ github.event.issue.body }}`;
+            const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
+
+            // Create list of repo maps
+            const repoData = [];
+            prUrls.map( (url) => {
+                repoData.push({
+                    repo: url.split("/")[4],
+                    owner: url.split("/")[3],
+                    pr: url.split("/")[6]
+                });
+            });
+
+            let commentBody = `This Pull request was referenced in a create environment issue.
+            The environment is now being created.
+            Once the environment is ready a new comment will be added to this PR with the details of the environment.`;
+
+            // Add comment in each PR
+            repoData.map( (repo) => {
+                github.rest.issues.createComment({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    body: commentBody
+                });
+
+                // Add deploying label to PR
+                github.issues.addLabels({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    labels: [":hammer_and_wrench: deploying :hammer_and_wrench:"]
+                });
+            });
+
+      - name: Provision Environment
+        run: |
+          echo"----------------- Provisioning Environment -----------------"
+          sleep 5
+
+      - uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          script: |
+            const issueBody = `${{ github.event.issue.body }}`;
+            const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
+
+            // Create list of repo maps
+            const repoData = [];
+            prUrls.map( (url) => {
+                repoData.push({
+                    repo: url.split("/")[4],
+                    owner: url.split("/")[3],
+                    pr: url.split("/")[6]
+                });
+            });
+
+            let commentBody = `The environment has been successfully created with the following details:
+            \`\`\`yaml
+            environment:
+              name: some-environment
+              region: us-east-1
+              instance:
+                type: t2.micro
+                id: i-1234567890
+                public_ip: "1.1.1.1"
+                private_ip: "2.2.2.2"
+            \`\`\`
+
+            A label has been added to this PR that will indicate the workflow to trigger a deployment after each build.
+            `;
+
+            // Add comment in each PR
+            repoData.map( (repo) => {
+                github.rest.issues.createComment({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    body: commentBody
+                });
+
+                // Add deploying label to PR
+                github.issues.addLabels({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    labels: ["deploy :rocket:"]
+                });
+
+                // Remove deploying label from PR
+                github.issues.removeLabel({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    name: "provisioning env :hammer_and_wrench:"
+                });
+            });
+
+
