@@ -134,7 +134,7 @@ jobs:
 
             let commentBody = `The environment has been successfully created with the following details:
             \`\`\`json
-            ${outputs}
+            ${JSON.stringify(outputs, null, 2)}
             \`\`\`
 
             A label has been added to this PR that will indicate the workflow to trigger a deployment after each build.`;
