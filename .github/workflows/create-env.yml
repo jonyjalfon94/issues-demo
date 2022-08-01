@@ -11,13 +11,19 @@ on:
       - edited
       - deleted
 
+env: 
+  CDK_APP_PATH: ./on-demand-env
+
 jobs:
-  issue-commented:
+  create-environment:
     name: comment
     runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
+
+      - uses: actions/checkout@v2
+
       - uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -39,7 +45,10 @@ jobs:
 
             let commentBody = `This Pull request was referenced in a create environment issue.
             The environment is now being created.
-            Once the environment is ready a new comment will be added to this PR with the details of the environment.`;
+            Once the environment is ready a new comment will be added to this PR with the details of the environment.
+            
+            In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks)`;
+            `;
 
             repoData.map( (repo) => {
                 // Add deploying label to PR
@@ -59,10 +68,47 @@ jobs:
 
             });
 
-      - name: Provision Environment
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::434834777527:role/github-role-Role-10TMVRLENRLC1
+          aws-region: eu-west-1
+          role-skip-session-tagging: true
+
+      # Install Node.js
+      - name: Set up Node.js 
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      # Install cdk
+      - name: Set up CDK
         run: |
-          echo "----------------- Provisioning Environment -----------------"
-          sleep 5
+          npm install -g aws-cdk
+
+      # Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      # Install Required Dependencies
+      - name: Install dependencies
+        working-directory: ${{ env.CDK_APP_PATH }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Get output of cdk diff
+      - name: Get Diff
+        working-directory: ${{ env.CDK_APP_PATH }}
+        run: |
+          cdk diff
+
+      # Deploy all stacks
+      - name: Deploy the application
+        working-directory: ${{ env.CDK_APP_PATH }}
+        run: cdk deploy --require-approval never --outputs-file outputs.json
 
       - uses: actions/github-script@v6
         env:
@@ -72,6 +118,7 @@ jobs:
           script: |
             const issueBody = `${{ github.event.issue.body }}`;
             const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
+            const outputs = JSON.parse(fs.readFileSync('outputs.json', 'utf8'));
 
             // Create list of repo maps
             const repoData = [];
@@ -84,19 +131,11 @@ jobs:
             });
 
             let commentBody = `The environment has been successfully created with the following details:
-            \`\`\`yaml
-            environment:
-              name: some-environment
-              region: us-east-1
-              instance:
-                type: t2.micro
-                id: i-1234567890
-                public_ip: "1.1.1.1"
-                private_ip: "2.2.2.2"
+            \`\`\`json
+            ${outputs}
             \`\`\`
 
-            A label has been added to this PR that will indicate the workflow to trigger a deployment after each build.
-            `;
+            A label has been added to this PR that will indicate the workflow to trigger a deployment after each build.`;
 
             repoData.map( (repo) => {
                 // Remove provision label from PR
