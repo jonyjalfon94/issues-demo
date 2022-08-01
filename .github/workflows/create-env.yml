@@ -49,7 +49,7 @@ jobs:
             The environment is now being created.
             Once the environment is ready a new comment will be added to this PR with the details of the environment.
             
-            In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/runs/${{ github.run_id }})`;
+            In order to see the status of the environment, visit the following link: [workflow status](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
 
             repoData.map( (repo) => {
                 // Add deploying label to PR
@@ -109,7 +109,7 @@ jobs:
       # Deploy all stacks
       - name: Deploy the application
         working-directory: ${{ env.CDK_APP_PATH }}
-        run: cdk deploy --require-approval never --outputs-file outputs.json
+        run: cdk deploy --require-approval never --outputs-file /tmp/outputs.json
 
       - uses: actions/github-script@v6
         env:
@@ -120,7 +120,7 @@ jobs:
             const fs = require('fs');
             const issueBody = `${{ github.event.issue.body }}`;
             const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
-            const outputs = JSON.parse(fs.readFileSync('outputs.json', 'utf8'));
+            const outputs = JSON.parse(fs.readFileSync('/tmp/outputs.json', 'utf8'));
 
             // Create list of repo maps
             const repoData = [];
