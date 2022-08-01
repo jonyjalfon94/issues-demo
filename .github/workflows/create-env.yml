@@ -117,6 +117,7 @@ jobs:
         with:
           github-token: ${{ secrets.TOKEN }}
           script: |
+            const fs = require('fs');
             const issueBody = `${{ github.event.issue.body }}`;
             const prUrls = issueBody.match(/(http|https):\/\/[a-zA-Z0-9./?=_%:-]*/g).sort()
             const outputs = JSON.parse(fs.readFileSync('outputs.json', 'utf8'));
