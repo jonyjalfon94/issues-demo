@@ -41,15 +41,7 @@ jobs:
             The environment is now being created.
             Once the environment is ready a new comment will be added to this PR with the details of the environment.`;
 
-            // Add comment in each PR
             repoData.map( (repo) => {
-                github.rest.issues.createComment({
-                    owner: repo.owner,
-                    repo: repo.repo,
-                    issue_number: repo.pr,
-                    body: commentBody
-                });
-
                 // Add deploying label to PR
                 github.rest.issues.addLabels({
                     owner: repo.owner,
@@ -57,6 +49,14 @@ jobs:
                     issue_number: repo.pr,
                     labels: ["provisioning env :hammer_and_wrench:"]
                 });
+                // Add comment in each PR
+                github.rest.issues.createComment({
+                    owner: repo.owner,
+                    repo: repo.repo,
+                    issue_number: repo.pr,
+                    body: commentBody
+                });
+
             });
 
       - name: Provision Environment
@@ -98,29 +98,27 @@ jobs:
             A label has been added to this PR that will indicate the workflow to trigger a deployment after each build.
             `;
 
-            // Add comment in each PR
             repoData.map( (repo) => {
-                github.rest.issues.createComment({
+                // Remove provision label from PR
+                github.rest.issues.removeLabel({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
-                    body: commentBody
+                    name: "provisioning env :hammer_and_wrench:"
                 });
-
-                // Add deploying label to PR
+                // Add deploy label to PR
                 github.rest.issues.addLabels({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
                     labels: ["deploy :rocket:"]
                 });
-
-                // Remove deploying label from PR
-                github.rest.issues.removeLabel({
+                // Add comment in each PR
+                github.rest.issues.createComment({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
-                    name: "provisioning env :hammer_and_wrench:"
+                    body: commentBody
                 });
             });
 
