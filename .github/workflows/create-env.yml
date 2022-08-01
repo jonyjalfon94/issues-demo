@@ -55,7 +55,7 @@ jobs:
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
-                    labels: [":hammer_and_wrench: deploying :hammer_and_wrench:"]
+                    labels: ["provisioning env :hammer_and_wrench:"]
                 });
             });
 
