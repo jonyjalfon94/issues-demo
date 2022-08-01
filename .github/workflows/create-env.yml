@@ -51,7 +51,7 @@ jobs:
                 });
 
                 // Add deploying label to PR
-                github.issues.addLabels({
+                github.rest.issues.addLabels({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
@@ -108,7 +108,7 @@ jobs:
                 });
 
                 // Add deploying label to PR
-                github.issues.addLabels({
+                github.rest.issues.addLabels({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
@@ -116,7 +116,7 @@ jobs:
                 });
 
                 // Remove deploying label from PR
-                github.issues.removeLabel({
+                github.rest.issues.removeLabel({
                     owner: repo.owner,
                     repo: repo.repo,
                     issue_number: repo.pr,
