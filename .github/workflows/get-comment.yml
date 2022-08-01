@@ -70,7 +70,7 @@ jobs:
           console.log(prUrls);
 
           cleanPrUrls = prUrls.map( url => {
-            url.replace(/^https?:\/\//github.com\/, '')
+            url.replace(/^https?:\/\//, '')
           })
           
           console.log(cleanPrUrls);
